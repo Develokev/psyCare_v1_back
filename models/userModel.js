@@ -74,8 +74,71 @@ const createPatientMod = async (dataRole) => {
     return result
 }
 
+const deletePatientMod = async (id) => {
+
+    let client, result;
+
+    try {
+        client = await pool.connect();
+        result = await client.query(queries.deletePatientQuery, [id]);
+
+    } catch (error) {
+        console.log('delete patient model FAILED')
+        throw error
+    }
+
+    finally {
+        client.release();
+    }
+
+    return result
+}
+
+const updatePatientMod = async (id, body) => {
+
+    let client, result;
+    const {name, last_name, email, password, avatar} = body
+
+    try {
+        client = await pool.connect();
+        result = await client.query(queries.updatePatientQuery, [name, last_name, email, password, avatar, id]);
+    } catch (error) {
+        console.log('update patiend model FAILED')
+        throw error
+    }
+
+    finally {
+        client.release();
+    }
+
+    return result
+}
+
+const getPatientByIdMod = async (id) => {
+
+    let client, result;
+
+    try {
+        client = await pool.connect();
+        result =await client.query(queries.patientByIdQuery, [id]);
+
+    } catch (error) {
+        console.log('patient by ID model FAILED')
+        throw error
+    }
+
+    finally {
+        client.release();
+    }
+
+    return result
+}
+
 module.exports = {
     getAllPatientsMod,
     getPatientByEmailMod,
-    createPatientMod
+    createPatientMod,
+    deletePatientMod,
+    getPatientByIdMod,
+    updatePatientMod
 }

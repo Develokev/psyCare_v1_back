@@ -4,19 +4,27 @@ const router = express.Router();
 const {
     getAllPatientsControl,
     getPatientByEmailControl,
-    createPatientControl
+    createPatientControl,
+    deletePatientControl,
+    updatePatientControl
 
 } = require('../controllers/userControllers')
 
 //ROUTES
 
-//All Patientes - ADMIN
+//all Patientes - ADMIN
 router.get('/', getAllPatientsControl);
 
-//Patient By Email
+//patient by email
 router.get('/:email', getPatientByEmailControl);
 
-//Create Patient
+//create patient
 router.post('/', createPatientControl);
+
+//delete patient
+router.delete('/:id', deletePatientControl);
+
+//update patient
+router.put('/:id', updatePatientControl);
 
 module.exports = router;
