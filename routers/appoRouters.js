@@ -5,7 +5,8 @@ const {
     getAllAppoControl,
     appoByUserIdControl,
     createAppoControl,
-    updateAppoControl
+    updateAppoControl,
+    deleteAppoControl
 
 } = require('../controllers/appoControllers')
 
@@ -14,7 +15,7 @@ const {
 //All appointments
 router.get('/', getAllAppoControl);
 
-//Appointment By ID
+//Appointments By User ID
 router.get('/:id', appoByUserIdControl);
 
 //Create appointment
@@ -22,5 +23,8 @@ router.post('/', createAppoControl);
 
 //Update appointment
 router.put('/:id', updateAppoControl);
+
+//Delete appointment
+router.delete('/:id', deleteAppoControl);
 
 module.exports = router;

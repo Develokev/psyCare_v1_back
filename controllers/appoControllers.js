@@ -3,6 +3,7 @@ const {
   appoByUserIdMod,
   createAppoMod,
   updateAppoMod,
+  deleteAppoMod,
 } = require("../models/appoModel");
 
 const getAllAppoControl = async (req, res) => {
@@ -65,7 +66,7 @@ const createAppoControl = async (req, res) => {
     return res.status(200).json({
       ok: true,
       data: data.rowCount,
-      msg: "if data = 1, appo successfully created"
+      msg: "if data = 1, appo successfully created",
     });
   } catch (error) {
     return res.status(500).json({
@@ -75,29 +76,49 @@ const createAppoControl = async (req, res) => {
   }
 };
 
-const updateAppoControl = async(req, res) => {
-    let data, appo_id;
-    id = req.params.id
-    const updateData = req.body
+const updateAppoControl = async (req, res) => {
+  let data, appo_id;
+  appo_id = req.params.id;
+  const updateData = req.body;
 
-    try {
-        data = await updateAppoMod(updateData, id);
-        return res.status(200).json({
-            ok: true,
-            data: data.rowCount,
-            msg: "if data = 1, data successfully updated"
-        });
-    } catch (error) {
-        return res.status(500).json({
-            ok: false,
-            msg: "updating appo controller FAILED, please contact ADMIN"
-        })
-    }
-}
+  try {
+    data = await updateAppoMod(updateData, appo_id);
+    return res.status(200).json({
+      ok: true,
+      data: data.rowCount,
+      msg: "if data = 1, data successfully updated",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "updating appo controller FAILED, please contact ADMIN",
+    });
+  }
+};
+
+const deleteAppoControl = async (req, res) => {
+  let data, appo_id;
+  appo_id = req.params.id;
+
+  try {
+    data = await deleteAppoMod(appo_id);
+    return res.status(200).json({
+      ok: true,
+      data: data.rowCount,
+      msg: "if data = 1, appo successfully deleted",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "deleting appo controller FAILED, please contact ADMIN",
+    });
+  }
+};
 
 module.exports = {
   getAllAppoControl,
   appoByUserIdControl,
   createAppoControl,
-  updateAppoControl
+  updateAppoControl,
+  deleteAppoControl,
 };
