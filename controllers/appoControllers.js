@@ -1,84 +1,103 @@
 const {
-    getAllAppoMod,
-    appoByUserIdMod,
-    createAppoMod
-
-} = require('../models/appoModel')
+  getAllAppoMod,
+  appoByUserIdMod,
+  createAppoMod,
+  updateAppoMod,
+} = require("../models/appoModel");
 
 const getAllAppoControl = async (req, res) => {
+  let data;
 
-    let data;
+  try {
+    data = await getAllAppoMod();
 
-    try {
-        data = await getAllAppoMod()
-
-        if (data) {
-            return res.status(200).json({
-                ok: true,
-                data: data.rows
-            })
-        }
-    } catch (error) {
-        res.status(500).json({
-            ok: false,
-            msg: 'all appo controller FAILED, please contact Admin'
-        })
+    if (data) {
+      return res.status(200).json({
+        ok: true,
+        data: data.rows,
+      });
     }
-}
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: "all appo controller FAILED, please contact Admin",
+    });
+  }
+};
 
 const appoByUserIdControl = async (req, res) => {
+  let data, id;
+  id = req.params.id;
 
-    let data, id;
-    id = req.params.id;
-
-    try {
-        if (id > 1) {
-        data = await appoByUserIdMod(id)
-        return res.status(200).json({
-            ok: true,
-            data: data.rows
-        })
-        }else {
-        return res.status(400).json({
-            ok: false,
-            msg: 'user ID unavailable, check data'
-        })}
-        
-    } catch (error) {
-        return res.status(500).json({
-            ok: false,
-            msg: 'getting appo by user ID FAILED, please contact ADMIN'
-        })
+  try {
+    if (id > 1) {
+      data = await appoByUserIdMod(id);
+      return res.status(200).json({
+        ok: true,
+        data: data.rows,
+      });
+    } else {
+      return res.status(400).json({
+        ok: false,
+        msg: "user ID unavailable, check data",
+      });
     }
-}
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "getting appo by user ID controller FAILED, please contact ADMIN",
+    });
+  }
+};
 
 const createAppoControl = async (req, res) => {
+  let data, id;
+  id = req.params.id;
 
-    let data, id;
+  const appoRole = {
+    user_id: id,
+    appoStatus: "pending",
+    ...req.body,
+  };
+
+  try {
+    data = await createAppoMod(appoRole);
+    return res.status(200).json({
+      ok: true,
+      data: data.rowCount,
+      msg: "if data = 1, appo successfully created"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "creating appo controller FAILED, please contact ADMIN",
+    });
+  }
+};
+
+const updateAppoControl = async(req, res) => {
+    let data, appo_id;
     id = req.params.id
+    const updateData = req.body
 
-    const appoRole = {
-        user_id : id,
-        appoStatus : 'pending',
-        ...req.body
-    }
-    
     try {
-        data = await createAppoMod(appoRole)
+        data = await updateAppoMod(updateData, id);
         return res.status(200).json({
             ok: true,
-            data: data.rowCount
-        })
+            data: data.rowCount,
+            msg: "if data = 1, data successfully updated"
+        });
     } catch (error) {
         return res.status(500).json({
             ok: false,
-            msg: 'creating appo FAILED, please contact ADMIN'
+            msg: "updating appo controller FAILED, please contact ADMIN"
         })
     }
 }
 
 module.exports = {
-    getAllAppoControl,
-    appoByUserIdControl,
-    createAppoControl
-}
+  getAllAppoControl,
+  appoByUserIdControl,
+  createAppoControl,
+  updateAppoControl
+};

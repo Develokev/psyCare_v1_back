@@ -74,8 +74,30 @@ const createAppoMod = async (appoRole) => {
     return result;
 }
 
+const updateAppoMod = async (updateData, appo_id) => {
+
+    let client, result;
+    const {appoDate, appoTime, appoType} = updateData
+
+    try {
+        client = await pool.connect();
+        result = await client.query(queries.updateAppoQuery, [appoDate, appoTime, appoType, appo_id]);
+
+    } catch (error) {
+        console.log('updating appo model FAILED')
+        throw error
+    }
+
+    finally {
+        client.release();
+    }
+
+    return result
+}
+
 module.exports = {
     getAllAppoMod,
     appoByUserIdMod,
-    createAppoMod
+    createAppoMod,
+    updateAppoMod
 }

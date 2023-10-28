@@ -55,7 +55,7 @@ const queries = {
     updateAppoQuery:`
     UPDATE appointments
     SET appoDate=$1, appoTime=$2, appoType=$3
-    WHERE user.user_id=$6`,
+    WHERE appointments.appo_id=$4`,
 
     deleteAppoQuery:`
     DELETE FROM appointments

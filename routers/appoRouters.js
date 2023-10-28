@@ -4,7 +4,8 @@ const router = express.Router();
 const {
     getAllAppoControl,
     appoByUserIdControl,
-    createAppoControl
+    createAppoControl,
+    updateAppoControl
 
 } = require('../controllers/appoControllers')
 
@@ -18,5 +19,8 @@ router.get('/:id', appoByUserIdControl);
 
 //Create appointment
 router.post('/', createAppoControl);
+
+//Update appointment
+router.put('/:id', updateAppoControl);
 
 module.exports = router;
