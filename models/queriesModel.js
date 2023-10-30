@@ -61,33 +61,28 @@ const queries = {
     DELETE FROM appointments
     WHERE appo_id=$1`,
 
-    pendingAppoQuery:`
-    SELECT a.appo_id,a.appoDate,a.appoTime,a.appoType,u.name,u.last_name,u.email,u.avatar,s.status
-    FROM appointments a
-    INNER JOIN users u ON a.user_id = u.user_id
-    INNER JOIN appoState s ON a.status = s.status
-    WHERE s.status = 'pending'`,
+//AppoState READ - UPDATE STATUS
 
-    confirmedAppoQuery:`
+    appoByStatusQuery:`
     SELECT a.appo_id,a.appoDate,a.appoTime,a.appoType,u.name,u.last_name,u.email,u.avatar,s.status
     FROM appointments a
     INNER JOIN users u ON a.user_id = u.user_id
     INNER JOIN appoState s ON a.status = s.status
-    WHERE s.status = 'confirmed'`,
+    WHERE s.status=$1
+    ORDER BY a.appoDate`,
 
-    paidAppoQuery:`
+    appoByStatusByUserQuery:`
     SELECT a.appo_id,a.appoDate,a.appoTime,a.appoType,u.name,u.last_name,u.email,u.avatar,s.status
     FROM appointments a
     INNER JOIN users u ON a.user_id = u.user_id
     INNER JOIN appoState s ON a.status = s.status
-    WHERE s.status = 'paid'`,
+    WHERE s.status=$1 AND u.user_id=$2
+    ORDER BY a.appoDate`,
 
-    cancelledAppoQuery:`
-    SELECT a.appo_id,a.appoDate,a.appoTime,a.appoType,u.name,u.last_name,u.email,u.avatar,s.status
-    FROM appointments a
-    INNER JOIN users u ON a.user_id = u.user_id
-    INNER JOIN appoState s ON a.status = s.status
-    WHERE s.status = 'cancelled'`
+    changeStatusQuery:`
+    UPDATE appointments
+    SET status=$1
+    WHERE appo_id=$2`
 }
 
 module.exports = queries;

@@ -1,30 +1,42 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 const {
-    getAllAppoControl,
-    appoByUserIdControl,
-    createAppoControl,
-    updateAppoControl,
-    deleteAppoControl
+  getAllAppoControl,
+  appoByUserIdControl,
+  createAppoControl,
+  updateAppoControl,
+  deleteAppoControl,
+  appoByStatusControl,
+  appoByStatusByUserControl,
+  changeStatusControl,
+} = require("../controllers/appoControllers");
 
-} = require('../controllers/appoControllers')
+//Appointments ROUTES
 
-//ROUTES
+//Appointments by status
+router.get("/status", appoByStatusControl);
 
+//Apointments by status by user
+router.get("/status/:id", appoByStatusByUserControl);
+
+//Change appointment status
+router.put("/status", changeStatusControl);
+
+//CRUD +++++++++++++++
 //All appointments
-router.get('/', getAllAppoControl);
+router.get("/", getAllAppoControl);
 
 //Appointments By User ID
-router.get('/:id', appoByUserIdControl);
+router.get("/:id", appoByUserIdControl);
 
 //Create appointment
-router.post('/', createAppoControl);
+router.post("/", createAppoControl);
 
-//Update appointment
-router.put('/:id', updateAppoControl);
+//Update appointment by appo_id
+router.put("/:id", updateAppoControl);
 
-//Delete appointment
-router.delete('/:id', deleteAppoControl);
+//Delete appointment bu appo_id
+router.delete("/:id", deleteAppoControl);
 
 module.exports = router;

@@ -104,10 +104,68 @@ const deleteAppoMod = async (appo_id) => {
   return result;
 };
 
+//Appointment Status READ - UPDATE
+
+const appoByStatusMod = async (status) => {
+  let client, result;
+
+  try {
+    client = await pool.connect();
+    result = await client.query(queries.appoByStatusQuery, [status]);
+  } catch (error) {
+    console.log("appo by status model FAILED");
+    throw error;
+  } finally {
+    client.release();
+  }
+
+  return result;
+};
+
+const appoByStatusByUserMod = async (user_id, status) => {
+  let client, result;
+
+  try {
+    client = await pool.connect();
+    result = await client.query(queries.appoByStatusByUserQuery, [
+      status,
+      user_id,
+    ]);
+  } catch (error) {
+    console.log("appo by status, by user model FAILED");
+    throw error;
+  } finally {
+    client.release();
+  }
+  return result;
+};
+
+const changeStatusMod = async (newStatus, appo_id) => {
+  let client, result;
+
+  try {
+    client = await pool.connect();
+    result = await client.query(queries.changeStatusQuery, [
+      newStatus,
+      appo_id,
+    ]);
+  } catch (error) {
+    console.log("change status model FAILED");
+    throw error;
+  } finally {
+    client.release();
+  }
+
+  return result;
+};
+
 module.exports = {
   getAllAppoMod,
   appoByUserIdMod,
   createAppoMod,
   updateAppoMod,
   deleteAppoMod,
+  appoByStatusMod,
+  appoByStatusByUserMod,
+  changeStatusMod,
 };
