@@ -53,9 +53,9 @@ const getPatientByEmailControl = async (req,res) => {
 
 const createPatientControl = async (req,res) => {
 
-    let data, dataRole;
+    let data;
 
-    dataRole = {
+    const dataRole = {
         role: 'patient',
         avatar: req.body.avatar || 'https://t.ly/SVHy',
         ...req.body

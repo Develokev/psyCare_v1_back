@@ -32,7 +32,7 @@ CREATE TABLE appointments (
   appoDate varchar(50) NOT NULL,
   appoTime varchar(15) NOT NULL,
   appoType varchar(25) NOT NULL,
-  user_id int,
+  user_id int NOT NULL,
   status varchar(25) NOT NULL,
   CONSTRAINT FK_users
     FOREIGN KEY (user_id)
