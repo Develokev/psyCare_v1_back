@@ -1,5 +1,4 @@
 const { generateToken } = require("../helpers/generateJWT");
-const bcrypt = require("bcrypt");
 const {
   getAllPatientsMod,
   getPatientByEmailMod,
@@ -50,22 +49,8 @@ const getPatientByEmailControl = async (req, res) => {
 };
 
 const createPatientControl = async (req, res) => {
-  let data, hashedPassword;
-  const { email, password } = req.body;
 
-  const emailExists = await getPatientByEmailMod(email);
-
-  if (emailExists.rowCount == 1) {
-    return res.status(400).json({
-      ok: false,
-      msg: "Email already exists, unable to create new user",
-    });
-  } else {
-    const salt = bcrypt.genSaltSync(10);
-    hashedPassword = bcrypt.hashSync(password, salt);
-  }
-
-  req.body.password = hashedPassword;
+    const email = req.body.email;
 
   const dataRole = {
     role: "patient",
@@ -74,14 +59,14 @@ const createPatientControl = async (req, res) => {
   };
 
   try {
-    data = await createPatientMod(dataRole);
+    const data = await createPatientMod(dataRole);
 
+    // Si rowCount == 1 significa que se creó el usuario nuevo 
     if (data.rowCount == 1) {
-      const newPatient = await getPatientByEmailMod(email);
 
       const user = {
-        id: newPatient.rows[0].user_id,
-        email: dataRole.email,
+        name: dataRole.name,
+        role: dataRole.role,
       };
 
       const token = await generateToken(user);
@@ -89,7 +74,7 @@ const createPatientControl = async (req, res) => {
       res.status(200).json({
         ok: true,
         mg: "new user created correctly",
-        data: newPatient.rows[0],
+        data: dataRole,
         token,
       });
     }

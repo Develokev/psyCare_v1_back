@@ -10,6 +10,8 @@ const {
 
 } = require('../controllers/userControllers')
 
+const {checkEmail} = require('../middlewares/emailExist')
+
 //ROUTES
 
 //all Patientes - ADMIN
@@ -19,7 +21,7 @@ router.get('/', getAllPatientsControl);
 router.get('/:email', getPatientByEmailControl);
 
 //create patient
-router.post('/', createPatientControl);
+router.post('/', checkEmail, createPatientControl);
 
 //delete patient
 router.delete('/:id', deletePatientControl);
