@@ -122,10 +122,18 @@ const updatePatientControl = async (req, res) => {
     data = await updatePatientMod(id, body);
 
     if (data.rowCount > 0) {
+      const user = {
+        name: body.name,
+        role: body.role,
+      };
+
+      const token = await generateToken(user);
+
       res.status(200).json({
         ok: true,
         data: data.rowCount,
         msg: "if data = 1, user successfully updated",
+        token
       });
     } else {
       res.status(400).json({
