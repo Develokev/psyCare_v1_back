@@ -9,7 +9,7 @@ const queries = {
 	WHERE roles.role = 'patient'`,
 
     patientByEmailQuery:`
-    SELECT u.user_id,u.name,u.last_name,u.email,u.avatar,u.register_date,roles.role
+    SELECT u.user_id,u.name,u.last_name,u.email,u.password,u.avatar,u.register_date,roles.role
     FROM users AS u
     INNER JOIN roles ON u.role = roles.role
 	WHERE u.email=$1`,

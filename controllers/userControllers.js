@@ -49,8 +49,7 @@ const getPatientByEmailControl = async (req, res) => {
 };
 
 const createPatientControl = async (req, res) => {
-
-    const email = req.body.email;
+  const email = req.body.email;
 
   const dataRole = {
     role: req.body.role || "patient",
@@ -61,10 +60,9 @@ const createPatientControl = async (req, res) => {
   try {
     const data = await createPatientMod(dataRole);
 
-    // Si rowCount == 1 significa que se creó el usuario nuevo 
+    // Si rowCount == 1 significa que se creó el usuario nuevo
     if (data.rowCount == 1) {
-
-    // Estos son los datos que va a recibir el payload en el "generateToken"
+      // Estos son los datos que va a recibir el payload en el "generateToken"
       const user = {
         name: dataRole.name,
         role: dataRole.role,
