@@ -26,8 +26,8 @@ const queries = {
 
     updatePatientQuery:`
     UPDATE users
-    SET name=$1, last_name=$2, email=$3, password=$4, avatar=$5
-    WHERE user_id=$6`,
+    SET name=$1, last_name=$2, password=$3, avatar=$4
+    WHERE user_id=$5`,
 
     deletePatientQuery:`
     DELETE FROM users

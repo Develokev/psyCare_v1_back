@@ -98,11 +98,11 @@ const deletePatientMod = async (id) => {
 const updatePatientMod = async (id, body) => {
 
     let client, result;
-    const {name, last_name, email, password, avatar} = body
+    const {name, last_name, password, avatar} = body
 
     try {
         client = await pool.connect();
-        result = await client.query(queries.updatePatientQuery, [name, last_name, email, password, avatar, id]);
+        result = await client.query(queries.updatePatientQuery, [name, last_name, password, avatar, id]);
     } catch (error) {
         console.log('update patiend model FAILED')
         throw error
