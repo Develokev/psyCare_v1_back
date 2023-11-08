@@ -96,7 +96,8 @@ const deletePatientControl = async (req, res) => {
       data = await deletePatientMod(id);
       res.status(200).json({
         ok: true,
-        data,
+        data: data.rowCount,
+        msg: "if data = 1, user successfully created",
       });
     } else {
       res.status(400).json({
@@ -123,8 +124,8 @@ const updatePatientControl = async (req, res) => {
     if (data.rowCount > 0) {
       res.status(200).json({
         ok: true,
-        msg: "patient data updated correctly",
-        data,
+        data: data.rowCount,
+        msg: "if data = 1, user successfully updated",
       });
     } else {
       res.status(400).json({
