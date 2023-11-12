@@ -37,10 +37,20 @@ router.get("/", getAllAppoControl);
 router.get("/:id", appoByUserIdControl);
 
 //Create appointment
-router.post("/", createAppoControl);
+router.post("/", [
+  check('appoDate', 'Debes elegir la fecha de la cita que quisieras agendar').trim().notEmpty(),
+  check('appoTime', 'Debes elegir la hora de la cita que te gustaría agendar').trim().notEmpty(),
+  check('appoType', 'Elige por favor "face-to-face" para cita presencial, u "online" si la prefieres en línea').trim().notEmpty(),
+  validateInputs
+], createAppoControl);
 
 //Update appointment by appo_id
-router.put("/:id", updateAppoControl);
+router.put("/:id", [
+  check('appoDate', 'Debes elegir la fecha de la cita que quisieras agendar').trim().notEmpty(),
+  check('appoTime', 'Debes elegir la hora de la cita que te gustaría agendar').trim().notEmpty(),
+  check('appoType', 'Elige por favor "face-to-face" para cita presencial, u "online" si la prefieres en línea').trim().notEmpty(),
+  validateInputs
+], updateAppoControl);
 
 //Delete appointment bu appo_id
 router.delete("/:id", deleteAppoControl);
