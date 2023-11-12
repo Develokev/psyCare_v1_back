@@ -104,7 +104,7 @@ const deleteAppoMod = async (appo_id) => {
   return result;
 };
 
-//Appointment Status READ - UPDATE
+//Appointment READ by status/by user- - UPDATE - CHANGE STATUS
 
 const appoByStatusMod = async (status) => {
   let client, result;
