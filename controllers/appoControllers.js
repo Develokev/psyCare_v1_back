@@ -167,9 +167,6 @@ const changeStatusControl = async (req, res) => {
   const appo_id = req.body.appo_id
   const newStatus = req.body.status
 
-  console.log(appo_id)
-  console.log(newStatus)
-
   try {
     data = await changeStatusMod(newStatus, appo_id);
     return res.status(200).json({

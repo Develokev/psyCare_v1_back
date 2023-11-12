@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const {check} = require('express-validator');
+const {validateInputs} = require('../middlewares/validateInputs');
+
 const {
   getAllAppoControl,
   appoByUserIdControl,
@@ -21,7 +24,10 @@ router.get("/status", appoByStatusControl);
 router.get("/status/:id", appoByStatusByUserControl);
 
 //Change appointment status
-router.put("/status", changeStatusControl);
+router.put("/status", [
+  check('status', 'Debes elegir que tipo de cita quieres agendar').trim().notEmpty(),
+  validateInputs
+], changeStatusControl);
 
 //CRUD +++++++++++++++
 //All appointments

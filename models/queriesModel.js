@@ -1,3 +1,6 @@
+/**DOCS
+ *  
+ */
 const queries = {
 
 //USERS CRUD
