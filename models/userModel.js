@@ -126,32 +126,6 @@ const createPatientMod = async (dataRole) => {
 };
 
 /**DOCS
- * Modelo que elimina un usuario por user_id
- * @method deletePatientMod
- * @async
- * @param {String} id recibe el ID del usuario que se va a eliminar de la BBDD.
- * @returns {json} devuelve true si se ha eliminado el usuario correctamente - result
- * @throws {error} devuelve error si hay un problema en la petición a la BBDD o si los datos llegan incorrectos.
- */
-const deletePatientMod = async (id) => {
-  let client, result;
-
-  try {
-    client = await pool.connect();
-    result = await client.query(queries.deletePatientQuery, [id]);
-
-  } catch (error) {
-    console.log("delete patient model FAILED");
-    throw error;
-
-  } finally {
-    client.release();
-  }
-
-  return result;
-};
-
-/**DOCS
  * Modelo de actualización de datos de un usuario por user_id
  * @method updatePatientMod
  * @async
@@ -179,6 +153,32 @@ const updatePatientMod = async (id, body) => {
     console.log("update patiend model FAILED");
     throw error;
     
+  } finally {
+    client.release();
+  }
+
+  return result;
+};
+
+/**DOCS
+ * Modelo que elimina un usuario por user_id
+ * @method deletePatientMod
+ * @async
+ * @param {String} id recibe el ID del usuario que se va a eliminar de la BBDD.
+ * @returns {json} devuelve true si se ha eliminado el usuario correctamente - result
+ * @throws {error} devuelve error si hay un problema en la petición a la BBDD o si los datos llegan incorrectos.
+ */
+const deletePatientMod = async (id) => {
+  let client, result;
+
+  try {
+    client = await pool.connect();
+    result = await client.query(queries.deletePatientQuery, [id]);
+
+  } catch (error) {
+    console.log("delete patient model FAILED");
+    throw error;
+
   } finally {
     client.release();
   }

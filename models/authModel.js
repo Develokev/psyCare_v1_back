@@ -13,7 +13,6 @@ const pool = new Pool({
   password: "admin",
 });
 
-
 /**DOCS
  * Modelo de autentificación de datos para hacer "log in". Se verifica que el correo esté almacenado en la BBDD.
  * @method loginModel
