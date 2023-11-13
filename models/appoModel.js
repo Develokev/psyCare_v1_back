@@ -149,7 +149,7 @@ const deleteAppoMod = async (appo_id) => {
   return result;
 };
 
-/**DOCS
+/**
  * READ APPOINTMENTS by status/by user- - UPDATE - CHANGE STATUS
  */
 
