@@ -1,4 +1,8 @@
-//BBDD connection
+/**DOCS
+ * Conexión a BBDD - SQL
+ * Estableciendo conexión con base de datos a través de clase Pool.
+ * Modelos y estructura de obtención de datos de usuarios a través de queriesModel.js.
+ */
 const { Pool } = require("pg");
 const queries = require("../models/queriesModel");
 
@@ -9,7 +13,15 @@ const pool = new Pool({
   password: "admin",
 });
 
-//Login
+
+/**DOCS
+ * Modelo de autentificación de datos para hacer "log in". Se verifica que el correo esté almacenado en la BBDD.
+ * @method loginModel
+ * @async
+ * @param {String} email recibe el correo del usuario que está intentando loguearse.
+ * @returns {json} devuelve true si se actualiza el usuario correctamente - result
+ * @throws {error} devuelve error si hay un problema en la petición a la BBDD o si no encuentra ningún correo coincidente.
+ */
 const loginModel = async(email) => {
   
   let client, result;
