@@ -1,7 +1,27 @@
+/**DOCS
+ * Login Controller
+ * Controladores de las rutas que filtran y verifican la información que entra a través de los scripts en el front al momento del "log in".
+ * Se encargan de manejar la información y realizar validaciones antes de enviarlas a los modelos(models) para que lleguen correctamente.
+ * 
+ * Se llama a bcrypt para verificar la data que entra con la información en la base de datos para otorgar el acceso.
+ * Se llama a generateToken(helper) para el encriptado/desencriptado de contraseña y generación de token de usuario.
+ */
 const bcrypt = require("bcrypt");
 const { loginModel } = require("../models/authModel");
 const { generateToken } = require("../helpers/generateJWT");
 
+/**DOCS
+ * Controlador de autentificación de datos para hacer "log in". Se verifican los datos a través de consultas a la BBDD.
+ * @method loginController
+ * @async
+ * @param {Object} req requerimiento de la ruta. Debe obtener el correo(email) y contraseña(password) del "body".
+ * @param {Object} res respuesta de la ruta.
+ * @param {Object} body recibe el correo y la contraseña del usuario.
+ * @returns {json} devuelve true si verifica la existencia del correo del body en la BBDD.
+ * Hace una llamada para verificar que el correo exista en la BBDD, luego encripta/desencripta contraseña y verifica nuevamente.
+ * Si la verificación de ambos parámetros es correcta, se concede el acceso.
+ * @throws {error} devuelve error si hay un problema en la petición a la BBDD, si el correo no existe en la BBDD, si no coincide, o si la contraseña no es verificada.
+ */
 const loginController = async (req, res) => {
   const { email, password } = req.body;
 

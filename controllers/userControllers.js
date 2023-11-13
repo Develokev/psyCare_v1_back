@@ -1,8 +1,9 @@
 /**DOCS
- * Controladores de las rutas que filtran la información y data a través de los scripts en el front.
+ * CRUD Patients
+ * Controladores de las rutas que filtran la información y data de USUARIOS a través de los scripts en el front.
  * Se encargan de manejar la información y realizar validaciones antes de enviarlas a los modelos(models) para que lleguen correctamente.
  * 
- * Se llama a generateToken(helper) para el encryptado de contraseña y generación de token de usuario.
+ * Se llama a generateToken(helper) para el encriptado de contraseña y generación de token de usuario.
  */
 const { generateToken } = require("../helpers/generateJWT");
 
@@ -129,7 +130,7 @@ const createPatientControl = async (req, res) => {
  * @param {Object} req requerimiento de la ruta. Deberá obtener del "body" la data nueva a actualizar en el usuario(paciente) y del params el "id".
  * @param {Object} res respuesta de la ruta.
  * @param {String} id recibe a través de "params" un string con el "id"(user_id) del usuario que a actualizar.
- * @param {Object} body recibe a través del "body" un json con la data para actualizar el nuevo usuario
+ * @param {Object} body recibe a través del "body" un json con la data para actualizar el usuario.
  * body = nombre, apellido, password y avatar.
  * se obtiene también de "body" el nombre y el rol para utilizarlos en la generación del token al actualizar.
  * @returns {json} devuelve la data actualizada con el paciente(user) nuevo y el "token" generado con el helper - data, token.
