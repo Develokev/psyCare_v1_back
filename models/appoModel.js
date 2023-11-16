@@ -13,7 +13,6 @@ const pool = new Pool({
   password: "admin",
 });
 
-
 /**DOCS
  * Modelo de obtención de datos filtrados que busca todas las citas en la BBDD.
  * @method getAllAppoMod

@@ -1,3 +1,7 @@
+/**
+ * Módulo que define las rutas relacionadas con la gestión de citas (appointments).
+ * @module routes/appoRouters
+ */
 const express = require("express");
 const router = express.Router();
 
@@ -15,28 +19,36 @@ const {
   changeStatusControl,
 } = require("../controllers/appoControllers");
 
-//Appointments ROUTES
-
-//Appointments by status
+/** Obtiene todos las las citas bajo un determinado "status" */
 router.get("/status", appoByStatusControl);
 
-//Apointments by status by user
+/** Obtiene todas las citas bajo un determinado "status", pero también bajo un determinado usuario(user_id)*/
 router.get("/status/:id", appoByStatusByUserControl);
 
-//Change appointment status
+/** Cambia el estado(status) de una cita a través de su appo_id (ID de la cita) 
+* @middlewares
+* - Validaciones de entrada utilizando Express Validator.
+* @param {string} status.body.required - Nuevo estado de la cita.
+*/
 router.put("/status", [
   check('status', 'Debes elegir que tipo de cita quieres agendar').trim().notEmpty(),
   validateInputs
 ], changeStatusControl);
 
-//CRUD +++++++++++++++
-//All appointments
+/** Obtiene todas las citas */
 router.get("/", getAllAppoControl);
 
-//Appointments By User ID
+/** Obtiene todas las citas bajo un determinado usuario (user_id) */
 router.get("/:id", appoByUserIdControl);
 
-//Create appointment
+/**DOCS 
+ * Crea una nueva cita
+ * @middlewares
+ * - Validaciones de entrada utilizando Express Validator.
+ * @param {string} appoDate.body.required - Fecha de la cita.
+ * @param {string} appoTime.body.required - Hora de la cita.
+ * @param {string} appoType.body.required - Tipo de cita ("face-to-face" u "online").
+ */
 router.post("/", [
   check('appoDate', 'Debes elegir la fecha de la cita que quisieras agendar').trim().notEmpty(),
   check('appoTime', 'Debes elegir la hora de la cita que te gustaría agendar').trim().notEmpty(),
@@ -44,7 +56,14 @@ router.post("/", [
   validateInputs
 ], createAppoControl);
 
-//Update appointment by appo_id
+/**DOCS 
+ * Crea una nueva cita
+ * @middlewares
+ * - Validaciones de entrada utilizando Express Validator.
+ * @param {string} appoDate.body.required - Fecha de la cita.
+ * @param {string} appoTime.body.required - Hora de la cita.
+ * @param {string} appoType.body.required - Tipo de cita ("face-to-face" u "online").
+ */
 router.put("/:id", [
   check('appoDate', 'Debes elegir la fecha de la cita que quisieras agendar').trim().notEmpty(),
   check('appoTime', 'Debes elegir la hora de la cita que te gustaría agendar').trim().notEmpty(),
@@ -52,7 +71,7 @@ router.put("/:id", [
   validateInputs
 ], updateAppoControl);
 
-//Delete appointment bu appo_id
+/** Elimina una cita por su ID */
 router.delete("/:id", deleteAppoControl);
 
 module.exports = router;

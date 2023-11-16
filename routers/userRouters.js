@@ -1,3 +1,7 @@
+/**
+ * Módulo que define las rutas relacionadas con la gestión de pacientes (usuarios).
+ * @module routes/userRouters
+ */
 const express = require('express');
 const router = express.Router();
 
@@ -15,15 +19,22 @@ const {
 
 } = require('../controllers/userControllers')
 
-//ROUTES
-
-//all Patientes - ADMIN
+/** Obtiene todos los pacientes - ADMIN ONLY */
 router.get('/', getAllPatientsControl);
 
-//patient by email
+/** Obtiene un paciente por su dirección de correo electrónico */
 router.get('/:email', getPatientByEmailControl);
 
-//create patient
+/**DOCS
+ * Crea un nuevo paciente.
+ * @middlewares
+ * - Validaciones de entrada utilizando Express Validator.
+ * - Verificación de existencia de correo electrónico utilizando "emailExist" middleware.
+ * @param {string} name.body.required - Nombre del paciente.
+ * @param {string} last_name.body.required - Apellido del paciente.
+ * @param {string} email.body.required - Correo electrónico del paciente.
+ * @param {string} password.body.required - Contraseña del paciente.
+ */
 router.post('/', [
     check('name', 'El nombre es obligatorio.').trim().notEmpty(),
     check('last_name', 'El apellido es obligatorio.').trim().notEmpty(),
@@ -37,10 +48,14 @@ router.post('/', [
     checkEmail,
 ], createPatientControl);
 
-//delete patient
-router.delete('/:id', deletePatientControl);
-
-//update patient
+/**DOCS
+ * Actualiza los datos de un paciente por su ID.
+ * @middlewares
+ * @param {string} id.path.required - ID del paciente.
+ * @param {string} name.body.required - Nuevo nombre del paciente.
+ * @param {string} last_name.body.required - Nuevo apellido del paciente.
+ * @param {string} password.body.required - Nueva contraseña del paciente.
+ */
 router.put('/:id', [
     check('name', 'El nombre es obligatorio.').trim().notEmpty(),
     check('last_name', 'El apellido es obligatorio.').trim().notEmpty(),
@@ -52,5 +67,8 @@ router.put('/:id', [
     validateInputs,
     encryptPass,
 ], updatePatientControl);
+
+/** Elimina un paciente por su ID */
+router.delete('/:id', deletePatientControl);
 
 module.exports = router;
