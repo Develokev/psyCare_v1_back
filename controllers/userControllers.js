@@ -31,12 +31,18 @@ const getAllPatientsControl = async (req, res) => {
   try {
     data = await getAllPatientsMod();
 
-    if (data) {
-      return res.status(200).json({
-        ok: true,
-        data: data.rows,
-      });
-    }
+    if (data.rowCount == 0) {
+      res.status(404).json({
+      ok: false,
+      msg: 'No patients found in database'
+    })
+  } else {
+    res.status(200).json({
+      ok: true,
+      msg: `${data.rowCount} patients found in database`,
+      data: data.rows
+    })
+  }
   } catch (error) {
     res.status(500).json({
       ok: false,
@@ -195,7 +201,7 @@ const deletePatientControl = async (req, res) => {
       res.status(200).json({
         ok: true,
         data: data.rowCount,
-        msg: "if data = 1, user successfully created",
+        msg: "if data = 1, user successfully deleted",
       });
     } else {
       res.status(400).json({

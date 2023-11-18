@@ -10,7 +10,7 @@ const queries = {
 //USERS CRUD
 
     /**
-     * Sentencia que busca todos los pacientes en BBDD
+     * Sentencia que busca todos los pacientes en BBDD exceptuando los ADMIN.
      */
     allPatientsQuery:`
     SELECT u.user_id,u.name,u.last_name,u.email,u.avatar,u.register_date,roles.role
