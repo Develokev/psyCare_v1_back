@@ -31,11 +31,17 @@ const getAllAppoControl = async (req, res) => {
   try {
     data = await getAllAppoMod();
 
-    if (data) {
-      return res.status(200).json({
+    if (data.rowCount == 0) {
+        res.status(404).json({
+        ok: false,
+        msg: 'No appointments found in database'
+      })
+    } else {
+      res.status(200).json({
         ok: true,
-        data: data.rows,
-      });
+        msg: `${data.rowCount} appointments found in database`,
+        data: data.rows
+      })
     }
   } catch (error) {
     res.status(500).json({
@@ -136,7 +142,7 @@ const updateAppoControl = async (req, res) => {
     return res.status(200).json({
       ok: true,
       data: data.rowCount,
-      msg: "if data = 1, data successfully updated",
+      msg: "if data = 1, data successfully updated"
     });
   } catch (error) {
     return res.status(500).json({
@@ -193,13 +199,22 @@ const appoByStatusControl = async (req, res) => {
 
   try {
     data = await appoByStatusMod(status);
-    return res.status(200).json({
-      ok: true,
-      msg: `filtered by status ${status} correctly`,
-      data: data.rows
-    })
+
+    if(data.rows.length == 0) {
+      res.status(404).json({
+        ok: false,
+        msg: `No appointments found under ${status} status.`
+      })
+    } else {
+        res.status(200).json({
+        ok: true,
+        msg: `${data.rowCount} appointments filtered by ${status} status correctly`,
+        data: data.rows
+      })
+    }
+    
   } catch (error) {
-    return res.status(200).json({
+    return res.status(400).json({
       ok: false,
       msg: `appo by status controller FAILED, pleasse contact ADMIN`
     })
@@ -223,11 +238,20 @@ const appoByStatusByUserControl = async (req, res) => {
 
   try {
     data = await appoByStatusByUserMod(user_id, status)
-    return res.status(200).json({
-      ok: true,
-      msg: `appo by status ${status} by user_id retrieved successfully`,
-      data: data.rows
-    })
+
+    if (data.rowCount == 0) {
+      res.status(404).json({
+        ok: false,
+        msg: `No appointments found under ${status} status for this patient`
+      })
+    } else {
+        res.status(200).json({
+        ok: true,
+        msg: `${data.rowCount} appointments found under ${status} status for this patient`,
+        data: data.rows
+      })
+    }
+    
   } catch (error) {
     return res.status(200).json({
       ok: false,
