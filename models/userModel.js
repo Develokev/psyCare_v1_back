@@ -1,17 +1,10 @@
 /**DOCS
  * Conexión a BBDD - SQL
- * Estableciendo conexión con base de datos a través de clase Pool.
+ * Estableciendo conexión con base de datos a través de clase Pool del archivo config.
  * Modelos y estructura de obtención de datos de usuarios a través de queriesModel.js.
  */
-const { Pool } = require("pg");
+const {pool} = require('../config/configElephantSQL');
 const queries = require("../models/queriesModel");
-
-const pool = new Pool({
-  host: "localhost",
-  user: "postgres",
-  database: "psycare_test",
-  password: "admin",
-});
 
 /**DOCS
  * Modelo de obtención de datos filtrados desde la BBDD que busca todas los usuarios

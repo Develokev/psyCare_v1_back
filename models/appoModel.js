@@ -3,15 +3,8 @@
  * Estableciendo conexión con base de datos a través de clase Pool.
  * Modelos y estructura de obtención de datos de citas (appointments) a través de queriesModel.js.
  */
-const { Pool } = require("pg");
+const {pool} = require('../config/configElephantSQL');
 const queries = require("../models/queriesModel");
-
-const pool = new Pool({
-  host: "localhost",
-  user: "postgres",
-  database: "psycare_test",
-  password: "admin",
-});
 
 /**DOCS
  * Modelo de obtención de datos filtrados que busca todas las citas en la BBDD.
