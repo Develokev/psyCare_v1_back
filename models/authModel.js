@@ -3,15 +3,16 @@
  * Estableciendo conexión con base de datos a través de clase Pool.
  * Modelos y estructura de obtención de datos de usuarios a través de queriesModel.js.
  */
-const { Pool } = require("pg");
+const {pool} = require('../config/configElephantSQL');
 const queries = require("../models/queriesModel");
 
-const pool = new Pool({
-  host: "localhost",
-  user: "postgres",
-  database: "psycare_test",
-  password: "admin",
-});
+// const { Pool } = require("pg");
+// const pool = new Pool({
+//   host: "localhost",
+//   user: "postgres",
+//   database: "psycare_test",
+//   password: "admin",
+// });
 
 /**DOCS
  * Modelo de autentificación de datos para hacer "log in". Se verifica que el correo esté almacenado en la BBDD.
