@@ -1,4 +1,4 @@
-const {Pool} = require('pg');
+const { Pool } = require('pg');
 
 const pool = new Pool({
     host: process.env.ELEPHANT_HOST,
@@ -7,4 +7,4 @@ const pool = new Pool({
     password: process.env.ELEPHANT_PASS,
   });
 
-module.exports = {pool};
+module.exports = { pool };
