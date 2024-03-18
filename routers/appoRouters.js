@@ -57,7 +57,7 @@ router.post("/", [
 ], createAppoControl);
 
 /**DOCS 
- * Crea una nueva cita
+ * Actualiza una nueva cita
  * @middlewares
  * - Validaciones de entrada utilizando Express Validator.
  * @param {string} appoDate.body.required - Fecha de la cita.
