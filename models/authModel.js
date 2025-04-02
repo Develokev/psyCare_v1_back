@@ -3,7 +3,7 @@
  * Estableciendo conexión con base de datos a través de clase Pool.
  * Modelos y estructura de obtención de datos de usuarios a través de queriesModel.js.
  */
-const {pool} = require('../config/configElephantSQL');
+const {pool} = require('../config/neonConfig');
 const queries = require("../models/queriesModel");
 
 // const { Pool } = require("pg");
