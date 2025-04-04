@@ -94,12 +94,12 @@ const getPatientByIdMod = async (id) => {
  */
 const createPatientMod = async (dataRole) => {
   let client, result;
-  const { role, name, last_name, email, password, avatar } = dataRole;
+  const { name, last_name, email, password, avatar } = dataRole;
 
   try {
     client = await pool.connect();
     result = await client.query(queries.createPatientQuery, [
-      role,
+      "patient",
       name,
       last_name,
       email,

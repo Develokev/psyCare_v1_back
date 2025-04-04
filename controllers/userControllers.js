@@ -95,10 +95,9 @@ const getPatientByEmailControl = async (req, res) => {
  * @throws {error} devuelve error si hay un problema en la petición a la BBDD o si los datos en el body no se han enviado correctamente.
  */
 const createPatientControl = async (req, res) => {
-  const email = req.body.email;
 
   const dataRole = {
-    role: req.body.role || "patient",
+    //role: req.body.role || "patient",
     avatar: req.body.avatar || "https://t.ly/SVHy",
     ...req.body,
   };
@@ -109,9 +108,11 @@ const createPatientControl = async (req, res) => {
     // Si rowCount == 1 significa que se creó el usuario nuevo
     if (data.rowCount == 1) {
       // Estos son los datos que va a recibir el payload en el "generateToken"
+
+      const newUser = data.rows[0];
       const user = {
-        name: dataRole.name,
-        role: dataRole.role,
+        name: newUser.name,
+        role: newUser.role
       };
 
       const token = await generateToken(user);
@@ -119,7 +120,7 @@ const createPatientControl = async (req, res) => {
       res.status(200).json({
         ok: true,
         mg: "new user created correctly",
-        data: dataRole,
+        data: newUser,
         token,
       });
     }

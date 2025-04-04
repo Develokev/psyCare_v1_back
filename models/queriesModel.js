@@ -41,7 +41,8 @@ const queries = {
      */
     createPatientQuery:`
     INSERT INTO users (role, name, last_name, email, password, avatar)
-    VALUES ($1, $2, $3, $4, $5, $6)`,
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *`,
 
     /**
      * Sentencia que actualiza (nombre,apellido,pass,avatar) info pacientes por user_id
