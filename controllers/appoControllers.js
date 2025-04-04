@@ -44,9 +44,10 @@ const getAllAppoControl = async (req, res) => {
       })
     }
   } catch (error) {
+    console.error(error)
     res.status(500).json({
       ok: false,
-      msg: "all appo controller FAILED, please contact Admin",
+      msg: "all appo controller FALLO, please contact Admin",
     });
   }
 };
@@ -78,6 +79,7 @@ const appoByUserIdControl = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error(error)
     return res.status(500).json({
       ok: false,
       msg: "getting appo by user ID controller FAILED, please contact ADMIN",
@@ -114,6 +116,7 @@ const createAppoControl = async (req, res) => {
       msg: "if data = 1, appo successfully created",
     });
   } catch (error) {
+    console.error(error)
     return res.status(500).json({
       ok: false,
       msg: "creating appo controller FAILED, please contact ADMIN",
@@ -145,6 +148,7 @@ const updateAppoControl = async (req, res) => {
       msg: "if data = 1, data successfully updated"
     });
   } catch (error) {
+    console.error(error)
     return res.status(500).json({
       ok: false,
       msg: "updating appo controller FAILED, please contact ADMIN",
@@ -173,6 +177,7 @@ const deleteAppoControl = async (req, res) => {
       msg: "if data = 1, appo successfully deleted",
     });
   } catch (error) {
+    console.error(error)
     return res.status(500).json({
       ok: false,
       msg: "deleting appo controller FAILED, please contact ADMIN",
@@ -214,6 +219,7 @@ const appoByStatusControl = async (req, res) => {
     }
     
   } catch (error) {
+    console.error(error)
     return res.status(400).json({
       ok: false,
       msg: `appo by status controller FAILED, pleasse contact ADMIN`
@@ -253,6 +259,7 @@ const appoByStatusByUserControl = async (req, res) => {
     }
     
   } catch (error) {
+    console.error(error)
     return res.status(200).json({
       ok: false,
       mg: 'appo by status by user_id controller FAILED, please contact ADMIN'
@@ -284,6 +291,7 @@ const changeStatusControl = async (req, res) => {
       msg: "if data = 1, status successfully updated",
     });
   } catch (error) {
+    console.error(error)
     return res.status(500).json({
       ok: false,
       msg: "change status controller FAILED, please contact ADMIN",

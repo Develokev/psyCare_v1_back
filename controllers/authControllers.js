@@ -57,7 +57,7 @@ const loginController = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error)
     return res.status(500).json({
       ok: false,
       msg: "login controller FAILED, please, contact ADMIN.",

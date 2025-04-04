@@ -44,6 +44,7 @@ const getAllPatientsControl = async (req, res) => {
     })
   }
   } catch (error) {
+    console.error(error)
     res.status(500).json({
       ok: false,
       msg: "all patients controller FAILED, please contact Admin",
@@ -73,6 +74,7 @@ const getPatientByEmailControl = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error(error)
     res.status(500).json({
       ok: false,
       msg: "patient by email controller FAILED, please contact ADMIN",
@@ -122,6 +124,7 @@ const createPatientControl = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error(error)
     res.status(500).json({
       ok: false,
       msg: "create patient controller FAILED, please contact ADMIN",
@@ -171,6 +174,7 @@ const updatePatientControl = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error(error)
     res.status(500).json({
       ok: false,
       msg: "update patient model FAILED",
@@ -210,6 +214,7 @@ const deletePatientControl = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error(error)
     res.status(500).json({
       ok: false,
       msg: "delete patient control FAILED, please contact ADMIN",

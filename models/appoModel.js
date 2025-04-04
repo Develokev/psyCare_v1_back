@@ -18,12 +18,15 @@ const getAllAppoMod = async () => {
 
   try {
     client = await pool.connect();
+    console.log('client conexión exitosa')
     result = await client.query(queries.allAppoQuery);
   } catch (error) {
     console.log("get all appo model FAILED");
     throw error;
   } finally {
-    client.release();
+    if (client) {
+      client.release();
+    }
   }
 
   return result;
@@ -47,7 +50,7 @@ const appoByUserIdMod = async (id) => {
     console.log("get appo by ID model FAILED");
     throw error;
   } finally {
-    client.release();
+      client.release();
   }
 
   return result;
@@ -79,7 +82,7 @@ const createAppoMod = async (appoRole) => {
     console.log("create appo model FAILED");
     throw error;
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -111,7 +114,7 @@ const updateAppoMod = async (updateData, appo_id) => {
     console.log("updating appo model FAILED");
     throw error;
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -135,7 +138,7 @@ const deleteAppoMod = async (appo_id) => {
     console.log("deleting appo model FAILED");
     throw error;
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -163,7 +166,7 @@ const appoByStatusMod = async (status) => {
     console.log("appo by status model FAILED");
     throw error;
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -190,7 +193,7 @@ const appoByStatusByUserMod = async (user_id, status) => {
     console.log("appo by status, by user model FAILED");
     throw error;
   } finally {
-    client.release();
+    client?.release();
   }
   return result;
 };
@@ -217,7 +220,7 @@ const changeStatusMod = async (newStatus, appo_id) => {
     console.log("change status model FAILED");
     throw error;
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;

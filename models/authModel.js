@@ -36,7 +36,7 @@ const loginModel = async(email) => {
   }
 
   finally {
-    client.release();
+    client?.release();
   }
   //accedo a la posición 0 del array para terminar de limpiar los datos
   return result.rows[0];

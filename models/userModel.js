@@ -25,7 +25,7 @@ const getAllPatientsMod = async () => {
     throw error;
 
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -51,7 +51,7 @@ const getPatientByEmailMod = async (email) => {
     throw error;
 
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -77,7 +77,7 @@ const getPatientByIdMod = async (id) => {
     throw error;
 
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -112,7 +112,7 @@ const createPatientMod = async (dataRole) => {
     throw error;
 
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -147,7 +147,7 @@ const updatePatientMod = async (id, body) => {
     throw error;
     
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
@@ -173,7 +173,7 @@ const deletePatientMod = async (id) => {
     throw error;
 
   } finally {
-    client.release();
+    client?.release();
   }
 
   return result;
