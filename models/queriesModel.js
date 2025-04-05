@@ -85,7 +85,8 @@ const queries = {
      */
     createAppoQuery:`
     INSERT INTO appointments (appoDate, appoTime, appoType, user_id, status)
-    VALUES ($1,$2,$3,$4,$5)`,
+    VALUES ($1,$2,$3,$4,$5)
+    RETURNING *`,
 
     /**
      * Sentencia que actualiza cita (fecha,hora,tipo) por appointment_id
@@ -93,7 +94,8 @@ const queries = {
     updateAppoQuery:`
     UPDATE appointments
     SET appoDate=$1, appoTime=$2, appoType=$3
-    WHERE appointments.appo_id=$4`,
+    WHERE appointments.appo_id=$4
+    RETURNING *`,
 
     /**
      * Sentencia que borra cita por appointment_id
@@ -132,7 +134,8 @@ const queries = {
     changeStatusQuery:`
     UPDATE appointments
     SET status=$1
-    WHERE appo_id=$2`
+    WHERE appo_id=$2
+    RETURNING *`
 }
 
 module.exports = queries;
