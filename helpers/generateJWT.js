@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
  * @param {Object} user objeto que contiene la información del usuario que vamos a pasar por payload para generar el Token
  * @param {String} user.user_id ID del usuario
  * @param {String} user.name - Nombre del usuario
- * @returns {String} devuelve un String con el Token generado con el payload.
+ * @returns {Promise<String>} devuelve un String con el Token generado con el payload.
  * @throws {error} devuelve un error en la petición si en la generación de token falla o si la info payload viene incorrecta.
  */
 const generateToken = (user) => {

@@ -47,7 +47,7 @@ const getAllAppoControl = async (req, res) => {
     console.error(error)
     res.status(500).json({
       ok: false,
-      msg: "all appo controller FALLO, please contact Admin",
+      msg: "all appo controller FAILED, please contact Admin",
     });
   }
 };
@@ -66,16 +66,18 @@ const appoByUserIdControl = async (req, res) => {
   id = req.params.id;
 
   try {
-    if (id > 1) {
-      data = await appoByUserIdMod(id);
-      return res.status(200).json({
-        ok: true,
-        data: data.rows,
+    data = await appoByUserIdMod(id);
+    //console.log(data)
+    if ( data.rowCount == 0 ) {
+      return res.status(404).json({
+        ok: false,
+        msg: "This patient does not have any appointments listed"
       });
     } else {
-      return res.status(400).json({
-        ok: false,
-        msg: "user ID unavailable, check data",
+      return res.status(200).json({
+        ok: true,
+        msg: `Patient ${data.rows[0].name} ${data.rows[0].last_name}`,
+        data: data.rows
       });
     }
   } catch (error) {
@@ -110,16 +112,17 @@ const createAppoControl = async (req, res) => {
 
   try {
     data = await createAppoMod(appoRole);
-    return res.status(200).json({
+
+    return res.status(201).json({
       ok: true,
-      data: data.rowCount,
-      msg: "if data = 1, appo successfully created",
+      data: data.rows[0],
+      msg: "Appointment successfully created",
     });
   } catch (error) {
     console.error(error)
     return res.status(500).json({
       ok: false,
-      msg: "creating appo controller FAILED, please contact ADMIN",
+      msg: "create appo controller FAILED, please contact ADMIN",
     });
   }
 };
@@ -142,10 +145,11 @@ const updateAppoControl = async (req, res) => {
 
   try {
     data = await updateAppoMod(updateData, appo_id);
+
     return res.status(200).json({
       ok: true,
-      data: data.rowCount,
-      msg: "if data = 1, data successfully updated"
+      msg: "Appointment date/time successfully updated",
+      data: data.rows[0],
     });
   } catch (error) {
     console.error(error)
@@ -170,12 +174,15 @@ const deleteAppoControl = async (req, res) => {
   appo_id = req.params.id;
 
   try {
-    data = await deleteAppoMod(appo_id);
-    return res.status(200).json({
-      ok: true,
-      data: data.rowCount,
-      msg: "if data = 1, appo successfully deleted",
-    });
+    const result = await deleteAppoMod(appo_id);
+    if (result.rowCount == 0) {
+      return res.status(404).json({
+        ok: false,
+        msg: "Appointment not found"
+      })
+    } else {
+       res.sendStatus(204);
+    }
   } catch (error) {
     console.error(error)
     return res.status(500).json({
@@ -243,8 +250,8 @@ const appoByStatusByUserControl = async (req, res) => {
   const status = req.body.status
 
   try {
-    data = await appoByStatusByUserMod(user_id, status)
-
+    data = await appoByStatusByUserMod(user_id, status);
+    
     if (data.rowCount == 0) {
       res.status(404).json({
         ok: false,
@@ -253,7 +260,7 @@ const appoByStatusByUserControl = async (req, res) => {
     } else {
         res.status(200).json({
         ok: true,
-        msg: `${data.rowCount} appointments found under ${status} status for this patient`,
+        msg: `${data.rowCount} appointments found under ${status} status for patient ${data.rows[0].name} ${data.rows[0].last_name}`,
         data: data.rows
       })
     }
@@ -287,8 +294,8 @@ const changeStatusControl = async (req, res) => {
     data = await changeStatusMod(newStatus, appo_id);
     return res.status(200).json({
       ok: true,
-      data: data.rowCount,
-      msg: "if data = 1, status successfully updated",
+      msg: `Appointment successfully updated to ${newStatus} status`,
+      data: data.rows[0]
     });
   } catch (error) {
     console.error(error)

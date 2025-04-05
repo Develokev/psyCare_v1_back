@@ -66,13 +66,20 @@ const getPatientByEmailControl = async (req, res) => {
   const email = req.params.email;
 
   try {
-    if (email) {
       data = await getPatientByEmailMod(email);
-      return res.status(200).json({
-        ok: true,
-        data: data.rows,
-      });
-    }
+
+      if (data.rowCount == 0) {
+        res.status(404).json({
+          ok: false,
+          msj: "Email not found"
+        })
+      } else {
+        res.status(200).json({
+          ok: true,
+          msg: "Patient successfully found by email",
+          data: data.rows[0]
+        });
+      }
   } catch (error) {
     console.error(error)
     res.status(500).json({
@@ -117,9 +124,9 @@ const createPatientControl = async (req, res) => {
 
       const token = await generateToken(user);
 
-      res.status(200).json({
+      res.status(201).json({
         ok: true,
-        mg: "new user created correctly",
+        msg: "new user created correctly",
         data: newUser,
         token,
       });
@@ -164,21 +171,20 @@ const updatePatientControl = async (req, res) => {
 
       res.status(200).json({
         ok: true,
-        data: data.rowCount,
-        msg: "if data = 1, user successfully updated",
+        msg: "Patient info successfully updated",
         token
       });
     } else {
-      res.status(400).json({
+      res.status(404).json({
         ok: false,
-        msg: "updating patient info FAILED",
+        msg: "Patient not found, updating info FAILED",
       });
     }
   } catch (error) {
     console.error(error)
     res.status(500).json({
       ok: false,
-      msg: "update patient model FAILED",
+      msg: "update patient controller FAILED",
     });
   }
 };
@@ -200,25 +206,21 @@ const deletePatientControl = async (req, res) => {
 
   try {
     exist = await getPatientByIdMod(id);
-
+    console.log(exist)
     if (exist.rowCount > 0) {
       data = await deletePatientMod(id);
-      res.status(200).json({
-        ok: true,
-        data: data.rowCount,
-        msg: "if data = 1, user successfully deleted",
-      });
+      res.sendStatus(204);
     } else {
-      res.status(400).json({
+      res.status(404).json({
         ok: false,
-        msg: "deleting patient FAILED",
+        msg: "Patient not found, deletiion FAILED",
       });
     }
   } catch (error) {
     console.error(error)
     res.status(500).json({
       ok: false,
-      msg: "delete patient control FAILED, please contact ADMIN",
+      msg: "delete patient controller FAILED, please contact ADMIN",
     });
   }
 };
