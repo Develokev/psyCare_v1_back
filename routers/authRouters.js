@@ -24,7 +24,7 @@ const { validateInputs } = require("../middlewares/validateInputs");
  * @param {string} email.body.required - Correo electrónico del usuario.
  * @param {string} password.body.required - Contraseña del usuario.
  */
-router.get("/login", [
+router.post("/login", [
     check('email', 'El email es obligatorio, por favor, verifícalo.').trim().isEmail().normalizeEmail(),
     check('password', 'La contraseña es obligatoria y debe tener entre 6 y 12 caracteres, y al menos un número y una letra.')
     .trim()
