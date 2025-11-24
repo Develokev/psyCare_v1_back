@@ -3,7 +3,7 @@
  * Estableciendo conexión con base de datos a través de clase Pool.
  * Modelos y estructura de obtención de datos de citas (appointments) a través de queriesModel.js.
  */
-const {pool} = require('../config/neonConfig');
+const { pool } = require("../config/neonConfig");
 const queries = require("../models/queriesModel");
 
 /**DOCS
@@ -49,7 +49,7 @@ const appoByUserIdMod = async (id) => {
     console.log("get appo by ID model FAILED");
     throw error;
   } finally {
-      client.release();
+    client.release();
   }
 
   return result;

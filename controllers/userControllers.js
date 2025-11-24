@@ -2,7 +2,7 @@
  * CRUD Patients
  * Controladores de las rutas que filtran la información y data de USUARIOS a través de los scripts en el front.
  * Se encargan de manejar la información y realizar validaciones antes de enviarlas a los modelos(models) para que lleguen correctamente.
- * 
+ *
  * Se llama a generateToken(helper) para el encriptado de contraseña y generación de token de usuario.
  */
 const { generateToken } = require("../helpers/generateJWT");
@@ -33,18 +33,18 @@ const getAllPatientsControl = async (req, res) => {
 
     if (data.rowCount == 0) {
       res.status(404).json({
-      ok: false,
-      msg: 'No patients found in database'
-    })
-  } else {
-    res.status(200).json({
-      ok: true,
-      msg: `${data.rowCount} patients found in database`,
-      data: data.rows
-    })
-  }
+        ok: false,
+        msg: "No patients found in database",
+      });
+    } else {
+      res.status(200).json({
+        ok: true,
+        msg: `${data.rowCount} patients found in database`,
+        data: data.rows,
+      });
+    }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({
       ok: false,
       msg: "all patients controller FAILED, please contact Admin",
@@ -66,22 +66,22 @@ const getPatientByEmailControl = async (req, res) => {
   const email = req.params.email;
 
   try {
-      data = await getPatientByEmailMod(email);
+    data = await getPatientByEmailMod(email);
 
-      if (data.rowCount == 0) {
-        res.status(404).json({
-          ok: false,
-          msj: "Email not found"
-        })
-      } else {
-        res.status(200).json({
-          ok: true,
-          msg: "Patient successfully found by email",
-          data: data.rows[0]
-        });
-      }
+    if (data.rowCount == 0) {
+      res.status(404).json({
+        ok: false,
+        msj: "Email not found",
+      });
+    } else {
+      res.status(200).json({
+        ok: true,
+        msg: "Patient successfully found by email",
+        data: data.rows[0],
+      });
+    }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({
       ok: false,
       msg: "patient by email controller FAILED, please contact ADMIN",
@@ -102,7 +102,6 @@ const getPatientByEmailControl = async (req, res) => {
  * @throws {error} devuelve error si hay un problema en la petición a la BBDD o si los datos en el body no se han enviado correctamente.
  */
 const createPatientControl = async (req, res) => {
-
   const dataRole = {
     //role: req.body.role || "patient",
     avatar: req.body.avatar || "https://t.ly/SVHy",
@@ -119,7 +118,7 @@ const createPatientControl = async (req, res) => {
       const newUser = data.rows[0];
       const user = {
         name: newUser.name,
-        role: newUser.role
+        role: newUser.role,
       };
 
       const token = await generateToken(user);
@@ -132,7 +131,7 @@ const createPatientControl = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({
       ok: false,
       msg: "create patient controller FAILED, please contact ADMIN",
@@ -172,7 +171,7 @@ const updatePatientControl = async (req, res) => {
       res.status(200).json({
         ok: true,
         msg: "Patient info successfully updated",
-        token
+        token,
       });
     } else {
       res.status(404).json({
@@ -181,7 +180,7 @@ const updatePatientControl = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({
       ok: false,
       msg: "update patient controller FAILED",
@@ -216,7 +215,7 @@ const deletePatientControl = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({
       ok: false,
       msg: "delete patient controller FAILED, please contact ADMIN",
