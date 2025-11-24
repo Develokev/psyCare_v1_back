@@ -12,9 +12,8 @@ const {
   deleteAppoMod,
   appoByStatusMod,
   appoByStatusByUserMod,
-  changeStatusMod
+  changeStatusMod,
 } = require("../models/appoModel");
-
 
 /**DOCS
  * Controlador que hace la consulta a la BBDD y devuelve todas las citas.
@@ -32,19 +31,19 @@ const getAllAppoControl = async (req, res) => {
     data = await getAllAppoMod();
 
     if (data.rowCount == 0) {
-        res.status(404).json({
+      res.status(404).json({
         ok: false,
-        msg: 'No appointments found in database'
-      })
+        msg: "No appointments found in database",
+      });
     } else {
       res.status(200).json({
         ok: true,
         msg: `${data.rowCount} appointments found in database`,
-        data: data.rows
-      })
+        data: data.rows,
+      });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({
       ok: false,
       msg: "all appo controller FAILED, please contact Admin",
@@ -62,26 +61,35 @@ const getAllAppoControl = async (req, res) => {
  * @throws {error} devuelve error si hay un problema en la petición a la BBDD o si no ha encontrado ningún usuario bajo ese "id"(user_id).
  */
 const appoByUserIdControl = async (req, res) => {
-  let data, id;
-  id = req.params.id;
+  const requestedUserId = parseInt(req.params.id);
+  const tokenUserId = req.user.user_id;
+  const userRole = req.user.role;
+
+  // Validación: Pacientes solo pueden ver sus propias citas
+  if (userRole === "patient" && requestedUserId !== tokenUserId) {
+    return res.status(403).json({
+      ok: false,
+      msg: "No tienes permiso para ver estas citas",
+    });
+  }
 
   try {
-    data = await appoByUserIdMod(id);
-    //console.log(data)
-    if ( data.rowCount == 0 ) {
+    const data = await appoByUserIdMod(requestedUserId);
+
+    if (data.rowCount == 0) {
       return res.status(404).json({
         ok: false,
-        msg: "This patient does not have any appointments listed"
+        msg: "This patient does not have any appointments listed",
       });
     } else {
       return res.status(200).json({
         ok: true,
         msg: `Patient ${data.rows[0].name} ${data.rows[0].last_name}`,
-        data: data.rows
+        data: data.rows,
       });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(500).json({
       ok: false,
       msg: "getting appo by user ID controller FAILED, please contact ADMIN",
@@ -119,7 +127,7 @@ const createAppoControl = async (req, res) => {
       msg: "Appointment successfully created",
     });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(500).json({
       ok: false,
       msg: "create appo controller FAILED, please contact ADMIN",
@@ -152,7 +160,7 @@ const updateAppoControl = async (req, res) => {
       data: data.rows[0],
     });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(500).json({
       ok: false,
       msg: "updating appo controller FAILED, please contact ADMIN",
@@ -178,13 +186,13 @@ const deleteAppoControl = async (req, res) => {
     if (result.rowCount == 0) {
       return res.status(404).json({
         ok: false,
-        msg: "Appointment not found"
-      })
+        msg: "Appointment not found",
+      });
     } else {
-       res.sendStatus(204);
+      res.sendStatus(204);
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(500).json({
       ok: false,
       msg: "deleting appo controller FAILED, please contact ADMIN",
@@ -207,30 +215,29 @@ const deleteAppoControl = async (req, res) => {
  */
 const appoByStatusControl = async (req, res) => {
   let data;
-  const status = req.body.status
+  const status = req.body.status;
 
   try {
     data = await appoByStatusMod(status);
 
-    if(data.rows.length == 0) {
+    if (data.rows.length == 0) {
       res.status(404).json({
         ok: false,
-        msg: `No appointments found under ${status} status.`
-      })
+        msg: `No appointments found under ${status} status.`,
+      });
     } else {
-        res.status(200).json({
+      res.status(200).json({
         ok: true,
         msg: `${data.rowCount} appointments filtered by ${status} status correctly`,
-        data: data.rows
-      })
+        data: data.rows,
+      });
     }
-    
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(400).json({
       ok: false,
-      msg: `appo by status controller FAILED, pleasse contact ADMIN`
-    })
+      msg: `appo by status controller FAILED, pleasse contact ADMIN`,
+    });
   }
 };
 
@@ -246,33 +253,32 @@ const appoByStatusControl = async (req, res) => {
  */
 const appoByStatusByUserControl = async (req, res) => {
   let data;
-  const user_id = req.params.id
-  const status = req.body.status
+  const user_id = req.params.id;
+  const status = req.body.status;
 
   try {
     data = await appoByStatusByUserMod(user_id, status);
-    
+
     if (data.rowCount == 0) {
       res.status(404).json({
         ok: false,
-        msg: `No appointments found under ${status} status for this patient`
-      })
+        msg: `No appointments found under ${status} status for this patient`,
+      });
     } else {
-        res.status(200).json({
+      res.status(200).json({
         ok: true,
         msg: `${data.rowCount} appointments found under ${status} status for patient ${data.rows[0].name} ${data.rows[0].last_name}`,
-        data: data.rows
-      })
+        data: data.rows,
+      });
     }
-    
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(200).json({
       ok: false,
-      mg: 'appo by status by user_id controller FAILED, please contact ADMIN'
-    })
+      mg: "appo by status by user_id controller FAILED, please contact ADMIN",
+    });
   }
-}
+};
 
 /**DOCS
  * Controlador que hace la consulta a la BBDD y actuliza el estado(status) de una cita bajo un appoitment_id(id).
@@ -287,25 +293,24 @@ const appoByStatusByUserControl = async (req, res) => {
 const changeStatusControl = async (req, res) => {
   let data;
 
-  const appo_id = req.body.appo_id
-  const newStatus = req.body.status
+  const appo_id = req.body.appo_id;
+  const newStatus = req.body.status;
 
   try {
     data = await changeStatusMod(newStatus, appo_id);
     return res.status(200).json({
       ok: true,
       msg: `Appointment successfully updated to ${newStatus} status`,
-      data: data.rows[0]
+      data: data.rows[0],
     });
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(500).json({
       ok: false,
       msg: "change status controller FAILED, please contact ADMIN",
     });
   }
-
-}
+};
 
 module.exports = {
   getAllAppoControl,
@@ -315,5 +320,5 @@ module.exports = {
   deleteAppoControl,
   appoByStatusControl,
   appoByStatusByUserControl,
-  changeStatusControl
+  changeStatusControl,
 };

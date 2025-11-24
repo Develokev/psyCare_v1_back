@@ -2,7 +2,7 @@
  * Login Controller
  * Controladores de las rutas que filtran y verifican la información que entra a través de los scripts en el front al momento del "log in".
  * Se encargan de manejar la información y realizar validaciones antes de enviarlas a los modelos(models) para que lleguen correctamente.
- * 
+ *
  * Se llama a bcrypt para verificar la data que entra con la información en la base de datos para otorgar el acceso.
  * Se llama a generateToken(helper) para el encriptado/desencriptado de contraseña y generación de token de usuario.
  */
@@ -45,7 +45,9 @@ const loginController = async (req, res) => {
       });
     } else {
       const user = {
+        user_id: emailOk.user_id,
         name: emailOk.name,
+        email: emailOk.email,
         role: emailOk.role,
       };
       const token = await generateToken(user);
@@ -54,10 +56,18 @@ const loginController = async (req, res) => {
         ok: true,
         msg: "Login successfull",
         token,
+        user: {
+          user_id: emailOk.user_id,
+          name: emailOk.name,
+          last_name: emailOk.last_name,
+          email: emailOk.email,
+          avatar: emailOk.avatar,
+          role: emailOk.role,
+        },
       });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return res.status(500).json({
       ok: false,
       msg: "login controller FAILED, please, contact ADMIN.",
