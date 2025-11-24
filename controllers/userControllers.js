@@ -206,7 +206,6 @@ const deletePatientControl = async (req, res) => {
 
   try {
     exist = await getPatientByIdMod(id);
-    console.log(exist)
     if (exist.rowCount > 0) {
       data = await deletePatientMod(id);
       res.sendStatus(204);

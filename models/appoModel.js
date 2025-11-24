@@ -18,7 +18,6 @@ const getAllAppoMod = async () => {
 
   try {
     client = await pool.connect();
-    console.log('client conexión exitosa')
     result = await client.query(queries.allAppoQuery);
   } catch (error) {
     console.log("get all appo model FAILED");
