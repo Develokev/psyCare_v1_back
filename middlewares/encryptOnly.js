@@ -14,26 +14,37 @@ const bcrypt = require("bcrypt");
  * @returns {String} devuelve la contraseña encriptada.
  * @throws {Error} devuelve un error en forma de Json si hay un problema en la petición.
  */
-const encryptPass = async (req,res,next) => {
+const encryptPass = async (req, res, next) => {
+  // Verificar que req.body exista ANTES de usarlo
+  if (!req.body) {
+    return res.status(400).json({
+      ok: false,
+      msg: "No se recibieron datos",
+    });
+  }
 
-    /**
-    * @constant {String} password - recibe la contraseña proporcionada por el usuario en la solicitud.
-    */
-    const { password } = req.body;
+  /**
+   * @constant {String} password - recibe la contraseña proporcionada por el usuario en la solicitud.
+   */
+  const { password } = req.body;
 
-    if(!req.body) {
-        res.status(401).json({
-            ok: false,
-            msg: 'Encrypting password FAILED'
-        })
-    } else {
-        const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = bcrypt.hashSync(password, salt);
-        req.body.password = hashedPassword;
+  // Solo encripta si password existe y no está vacía
+  if (password && password.trim() !== "") {
+    try {
+      const salt = bcrypt.genSaltSync(10);
+      const hashedPassword = bcrypt.hashSync(password, salt);
+      req.body.password = hashedPassword;
+    } catch (error) {
+      return res.status(500).json({
+        ok: false,
+        msg: "Error al encriptar contraseña",
+      });
     }
-    next();
-}
+  }
+
+  next();
+};
 
 module.exports = {
-    encryptPass
-}
+  encryptPass,
+};

@@ -76,14 +76,12 @@ router.put(
       .trim()
       .isLength({ min: 7, max: 20 })
       .withMessage("El teléfono debe tener entre 7 y 20 caracteres."),
-    check(
-      "password",
-      "La contraseña es obligatoria y debe tener entre 6 y 12 caracteres, y al menos un número y una letra."
-    )
+    check("password")
+      .optional({ checkFalsy: true })
       .trim()
-      .notEmpty()
       .isLength({ min: 6, max: 12 })
-      .matches(/^(?=.*[A-Za-z])(?=.*\d)/),
+      .matches(/^(?=.*[A-Za-z])(?=.*\d)/)
+      .withMessage("La contraseña debe tener entre 6 y 12 caracteres, y al menos un número y una letra."),
     validateInputs,
     encryptPass,
   ],
