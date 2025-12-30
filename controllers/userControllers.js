@@ -147,7 +147,7 @@ const createPatientControl = async (req, res) => {
  * @param {Object} res respuesta de la ruta.
  * @param {String} id recibe a través de "params" un string con el "id"(user_id) del usuario que a actualizar.
  * @param {Object} body recibe a través del "body" un json con la data para actualizar el usuario.
- * body = nombre, apellido, password y avatar.
+ * body = nombre, apellido, phone, password y avatar.
  * se obtiene también de "body" el nombre y el rol para utilizarlos en la generación del token al actualizar.
  * @returns {json} devuelve la data actualizada con el paciente(user) nuevo y el "token" generado con el helper - data, token.
  * @throws {error} devuelve error si hay un problema en la petición a la BBDD o si los datos en el body no se han enviado correctamente.
